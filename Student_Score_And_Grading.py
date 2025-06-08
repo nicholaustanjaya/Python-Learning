@@ -1,39 +1,39 @@
-Students_Count = int(input("Please enter the number of students : "))
+students_count = int(input("Please enter the number of students: "))
+
 with open("scores.txt", "w") as file:
-    for i in range(Students_Count):
-        name = input(f"Enter student #{i+1} name :")
+    for i in range(students_count):
+        name = input(f"Enter student #{i+1} name: ")
         score = input(f"Enter score #{i+1}: ")
         file.write(name + "," + score + "\n")
 
+students_score = {}
 with open("scores.txt", "r") as file:
-    lines = file.readlines()
-    Students_Score = {}
-    for line in lines:
-        student_name_score=line.strip().split(",")
-        Students_Score[student_name_score[0]] = student_name_score[1]
+    for line in file:
+        name, score = line.strip().split(",")
+        students_score[name] = int(score)
 
-i=0
-sum=0
-Students_Grade = {}
-for name, val in Students_Score.items():
-   sum+=int(val)
-   i+=1
-   if int(val)>=90:
-       Students_Grade[name]="A"
-   elif int(val)>=80:
-       Students_Grade[name]="B"
-   elif int(val)>=70:
-        Students_Grade[name] = "C"
-   else:
-        Students_Grade[name] = "F"
-average = sum/i
-print(f"Average score : {average}")
-print(Students_Grade)
-
-Total_Grades = {}
-for Grade in Students_Grade.values():
-    if Grade in Total_Grades:
-        Total_Grades[Grade]+=1
+students_grade = {}
+total_score = 0
+for name, score in students_score.items():
+    total_score += score
+    if score >= 90:
+        students_grade[name] = "A"
+    elif score >= 80:
+        students_grade[name] = "B"
+    elif score >= 70:
+        students_grade[name] = "C"
     else:
-        Total_Grades[Grade]=1
-print(Total_Grades)
+        students_grade[name] = "F"
+
+average = total_score / students_count
+print(f"Average score: {average}")
+print("Grades per student:", students_grade)
+
+total_grades = {}
+for grade in students_grade.values():
+    if grade in total_grades:
+        total_grades[grade] += 1
+    else:
+        total_grades[grade] = 1
+
+print("Grade distribution:", total_grades)
